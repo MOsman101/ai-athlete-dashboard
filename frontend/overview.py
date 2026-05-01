@@ -5,6 +5,28 @@ from backend.data_loader import get_latest_records_for_all_athletes
 from backend.privacy import get_privacy_status
 
 
+def apply_chart_theme(fig):
+    fig.update_layout(
+        template="plotly_dark",
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="#ffffff", size=15),
+        title_font=dict(color="#ffffff", size=20),
+        legend=dict(font=dict(color="#ffffff", size=13)),
+        xaxis=dict(
+            title_font=dict(color="#ffffff", size=14),
+            tickfont=dict(color="#ffffff", size=12),
+            gridcolor="rgba(255,255,255,0.22)"
+        ),
+        yaxis=dict(
+            title_font=dict(color="#ffffff", size=14),
+            tickfont=dict(color="#ffffff", size=12),
+            gridcolor="rgba(255,255,255,0.22)"
+        )
+    )
+    return fig
+
+
 def render_overview(df, accuracy, logs_list):
     latest_df = get_latest_records_for_all_athletes(df)
     selected = latest_df.iloc[0]
@@ -45,14 +67,9 @@ def render_overview(df, accuracy, logs_list):
             athlete_history,
             x="session_date",
             y=["training_load", "recovery_hours", "readiness_score"],
-            title="Performance Trend Overview",
-            template="plotly_dark"
+            title="Performance Trend Overview"
         )
-        fig_line.update_layout(
-            paper_bgcolor="rgba(0,0,0,0)",
-            plot_bgcolor="rgba(0,0,0,0)",
-            font_color="white"
-        )
+        fig_line = apply_chart_theme(fig_line)
         st.plotly_chart(fig_line, use_container_width=True)
 
         bottom_left, bottom_right = st.columns(2)
@@ -61,9 +78,14 @@ def render_overview(df, accuracy, logs_list):
             gauge = go.Figure(go.Indicator(
                 mode="gauge+number",
                 value=float(selected["readiness_score"]),
-                title={"text": "Athlete Readiness", "font": {"color": "white"}},
+                title={"text": "Athlete Readiness", "font": {"color": "#ffffff", "size": 20}},
+                number={"font": {"color": "#ffffff", "size": 56}},
                 gauge={
-                    "axis": {"range": [0, 100], "tickcolor": "white"},
+                    "axis": {
+                        "range": [0, 100],
+                        "tickcolor": "#ffffff",
+                        "tickfont": {"color": "#ffffff"}
+                    },
                     "bar": {"color": "#2563eb"},
                     "steps": [
                         {"range": [0, 40], "color": "#dc2626"},
@@ -74,7 +96,7 @@ def render_overview(df, accuracy, logs_list):
             ))
             gauge.update_layout(
                 paper_bgcolor="rgba(0,0,0,0)",
-                font_color="white"
+                font=dict(color="#ffffff", size=15)
             )
             st.plotly_chart(gauge, use_container_width=True)
 
@@ -83,11 +105,8 @@ def render_overview(df, accuracy, logs_list):
             fig_pie = px.pie(
                 values=risk_counts.values,
                 names=risk_counts.index,
-                title="Risk Distribution",
-                template="plotly_dark"
+                title="Risk Distribution"
             )
-            fig_pie.update_layout(
-                paper_bgcolor="rgba(0,0,0,0)",
-                font_color="white"
-            )
+            fig_pie = apply_chart_theme(fig_pie)
+            fig_pie.update_traces(textfont=dict(color="#ffffff", size=14))
             st.plotly_chart(fig_pie, use_container_width=True)

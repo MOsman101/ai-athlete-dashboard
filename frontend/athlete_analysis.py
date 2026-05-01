@@ -9,6 +9,28 @@ from backend.scoring import calculate_readiness_score, generate_performance_summ
 from backend.privacy import anonymise_athlete_id
 
 
+def apply_chart_theme(fig):
+    fig.update_layout(
+        template="plotly_dark",
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        font=dict(color="#ffffff", size=15),
+        title_font=dict(color="#ffffff", size=20),
+        legend=dict(font=dict(color="#ffffff", size=13)),
+        xaxis=dict(
+            title_font=dict(color="#ffffff", size=14),
+            tickfont=dict(color="#ffffff", size=12),
+            gridcolor="rgba(255,255,255,0.22)"
+        ),
+        yaxis=dict(
+            title_font=dict(color="#ffffff", size=14),
+            tickfont=dict(color="#ffffff", size=12),
+            gridcolor="rgba(255,255,255,0.22)"
+        )
+    )
+    return fig
+
+
 def render_athlete_analysis(df, model, logs_list):
     athlete_list = get_athlete_list(df)
     selected_athlete = st.selectbox("Select Athlete ID", athlete_list)
@@ -103,23 +125,23 @@ def render_athlete_analysis(df, model, logs_list):
             x="Importance",
             y="Feature",
             orientation="h",
-            title="Feature Importance",
-            template="plotly_dark"
+            title="Feature Importance"
         )
-        fig_bar.update_layout(
-            paper_bgcolor="rgba(0,0,0,0)",
-            plot_bgcolor="rgba(0,0,0,0)",
-            font_color="white"
-        )
+        fig_bar = apply_chart_theme(fig_bar)
         st.plotly_chart(fig_bar, use_container_width=True)
 
     with lower_right:
         gauge = go.Figure(go.Indicator(
             mode="gauge+number",
             value=readiness_score,
-            title={"text": "Readiness Gauge", "font": {"color": "white"}},
+            title={"text": "Readiness Gauge", "font": {"color": "#ffffff", "size": 20}},
+            number={"font": {"color": "#ffffff", "size": 56}},
             gauge={
-                "axis": {"range": [0, 100], "tickcolor": "white"},
+                "axis": {
+                    "range": [0, 100],
+                    "tickcolor": "#ffffff",
+                    "tickfont": {"color": "#ffffff"}
+                },
                 "bar": {"color": "#2563eb"},
                 "steps": [
                     {"range": [0, 40], "color": "#dc2626"},
@@ -130,7 +152,7 @@ def render_athlete_analysis(df, model, logs_list):
         ))
         gauge.update_layout(
             paper_bgcolor="rgba(0,0,0,0)",
-            font_color="white"
+            font=dict(color="#ffffff", size=15)
         )
         st.plotly_chart(gauge, use_container_width=True)
 
@@ -140,12 +162,7 @@ def render_athlete_analysis(df, model, logs_list):
         athlete_history,
         x="session_date",
         y=["training_load", "recovery_hours", "readiness_score"],
-        title=f"Session History for {selected_athlete}",
-        template="plotly_dark"
+        title=f"Session History for {selected_athlete}"
     )
-    fig_trend.update_layout(
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
-        font_color="white"
-    )
+    fig_trend = apply_chart_theme(fig_trend)
     st.plotly_chart(fig_trend, use_container_width=True)

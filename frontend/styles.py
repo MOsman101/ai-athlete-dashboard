@@ -6,122 +6,209 @@ def apply_global_styles():
         """
         <style>
         .stApp {
-            background: linear-gradient(135deg, #071a3d 0%, #0b3d91 45%, #111827 100%);
-            color: white;
+            background-image:
+                linear-gradient(rgba(5, 12, 28, 0.58), rgba(5, 12, 28, 0.72)),
+                url("https://images.unsplash.com/photo-1518091043644-c1d4457512c6?auto=format&fit=crop&w=2200&q=80");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: #f8fafc !important;
         }
 
-        section[data-testid="stSidebar"] {
-            background: linear-gradient(180deg, #061735 0%, #0b3d91 100%);
-            border-right: 1px solid rgba(255,255,255,0.15);
+        header[data-testid="stHeader"] {
+            background: rgba(0,0,0,0) !important;
+            height: 0rem;
         }
 
-        section[data-testid="stSidebar"] * {
-            color: white;
+        div[data-testid="stDecoration"] {
+            display: none;
         }
 
         .block-container {
-            padding-top: 1.5rem;
-            max-width: 1450px;
+            padding-top: 0rem;
+            padding-bottom: 2rem;
+            max-width: 1600px;
+        }
+
+        section[data-testid="stSidebar"] {
+            background: rgba(3, 7, 18, 0.9);
+            border-right: 1px solid rgba(255,255,255,0.16);
+            backdrop-filter: blur(10px);
+        }
+
+        section[data-testid="stSidebar"] * {
+            color: #f8fafc !important;
         }
 
         .main-title {
-            font-size: 2.4rem;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 0.2rem;
+            font-size: 3.6rem;
+            font-weight: 900;
+            color: #ffffff !important;
+            margin-bottom: 0.4rem;
+            text-shadow: 0 3px 12px rgba(0,0,0,0.75);
         }
 
         .main-subtitle {
-            color: #cbd5e1;
-            font-size: 1rem;
-            margin-bottom: 1.2rem;
+            color: #e2e8f0 !important;
+            font-size: 1.35rem;
+            margin-bottom: 0rem;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.65);
+        }
+
+        .hero-panel {
+            background: rgba(15, 23, 42, 0.88);
+            border: 1px solid rgba(255,255,255,0.16);
+            border-radius: 28px;
+            padding: 40px 50px;
+            margin-bottom: 26px;
+            box-shadow: 0 18px 44px rgba(0,0,0,0.38);
+            backdrop-filter: blur(9px);
         }
 
         .dashboard-card {
-            background: rgba(255,255,255,0.10);
+            background: rgba(15, 23, 42, 0.88);
             border: 1px solid rgba(255,255,255,0.18);
-            border-radius: 22px;
-            padding: 22px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.28);
-            margin-bottom: 18px;
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 14px 34px rgba(0,0,0,0.34);
+            margin-bottom: 20px;
+            backdrop-filter: blur(9px);
+            color: #f8fafc !important;
         }
 
         .profile-card {
-            background: linear-gradient(180deg, rgba(255,255,255,0.16), rgba(255,255,255,0.08));
-            border: 1px solid rgba(255,255,255,0.22);
-            border-radius: 24px;
-            padding: 22px;
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 26px;
+            padding: 28px;
             text-align: center;
-            box-shadow: 0 12px 28px rgba(0,0,0,0.3);
+            box-shadow: 0 14px 34px rgba(0,0,0,0.38);
+            backdrop-filter: blur(9px);
+            color: #f8fafc !important;
         }
 
         .avatar-box {
-            width: 135px;
-            height: 165px;
-            margin: 0 auto 16px auto;
+            width: 160px;
+            height: 200px;
+            margin: 0 auto 18px auto;
             background: linear-gradient(180deg, #e5e7eb, #94a3b8);
-            border-radius: 18px;
-            border: 4px solid rgba(255,255,255,0.85);
+            border-radius: 20px;
+            border: 4px solid rgba(255,255,255,0.92);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 3rem;
+            font-size: 3.7rem;
             font-weight: 900;
-            color: #0f172a;
+            color: #0f172a !important;
         }
 
         .profile-name {
-            font-size: 1.35rem;
-            font-weight: 800;
-            margin-bottom: 4px;
+            font-size: 1.65rem;
+            font-weight: 900;
+            margin-bottom: 6px;
+            color: #ffffff !important;
         }
 
         .profile-meta {
-            color: #dbeafe;
-            font-size: 0.95rem;
-            margin-bottom: 8px;
+            color: #dbeafe !important;
+            font-size: 1.12rem;
+            margin-bottom: 10px;
+            font-weight: 600;
         }
 
         .info-row {
             display: flex;
             justify-content: space-between;
-            border-bottom: 1px solid rgba(255,255,255,0.12);
-            padding: 7px 0;
-            font-size: 0.95rem;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            padding: 9px 0;
+            font-size: 1.08rem;
         }
 
         .info-label {
-            color: #cbd5e1;
+            color: #cbd5e1 !important;
+            font-weight: 500;
         }
 
         .info-value {
-            color: white;
-            font-weight: 700;
+            color: #ffffff !important;
+            font-weight: 800;
         }
 
         div[data-testid="stMetric"] {
-            background: rgba(255,255,255,0.12);
+            background: rgba(15, 23, 42, 0.9);
             border: 1px solid rgba(255,255,255,0.18);
-            padding: 14px;
-            border-radius: 18px;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            padding: 22px;
+            border-radius: 22px;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.30);
+            color: #f8fafc !important;
         }
 
-        div[data-testid="stMetric"] label {
+        div[data-testid="stMetricLabel"] {
             color: #dbeafe !important;
+            font-size: 1.1rem !important;
+            font-weight: 700 !important;
         }
 
-        div[data-testid="stMetric"] [data-testid="stMetricValue"] {
-            color: white !important;
+        div[data-testid="stMetricValue"] {
+            color: #ffffff !important;
+            font-size: 2.1rem !important;
+            font-weight: 900 !important;
         }
 
         .stButton>button {
-            border-radius: 14px;
-            border: 1px solid rgba(255,255,255,0.25);
-            background: linear-gradient(90deg, #2563eb, #dc2626);
-            color: white;
-            font-weight: 700;
-            padding: 0.6rem 1rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.28);
+            background: linear-gradient(90deg, #16a34a, #2563eb);
+            color: white !important;
+            font-weight: 800;
+            font-size: 1.1rem;
+            padding: 0.8rem 1.2rem;
+        }
+
+        .stButton>button:hover {
+            border: 1px solid white;
+            color: white !important;
+        }
+
+        html, body, [class*="css"] {
+            color: #f8fafc !important;
+        }
+
+        .stMarkdown, .stText, .stCaption {
+            color: #f8fafc !important;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            color: #ffffff !important;
+            font-weight: 800 !important;
+        }
+
+        p, label, span {
+            color: #e2e8f0 !important;
+            font-size: 1.08rem;
+        }
+
+        input {
+            font-size: 1.15rem !important;
+            padding: 10px !important;
+        }
+
+        .stSelectbox label,
+        .stSlider label,
+        .stTextInput label,
+        .stRadio label {
+            color: #f8fafc !important;
+            font-weight: 700 !important;
+        }
+
+        .js-plotly-plot .plotly text {
+            fill: #ffffff !important;
+        }
+
+        .js-plotly-plot .gtitle,
+        .js-plotly-plot .xtitle,
+        .js-plotly-plot .ytitle {
+            fill: #ffffff !important;
         }
         </style>
         """,
