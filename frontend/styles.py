@@ -40,21 +40,6 @@ def apply_global_styles():
             color: #f8fafc !important;
         }
 
-        .main-title {
-            font-size: 3.6rem;
-            font-weight: 900;
-            color: #ffffff !important;
-            margin-bottom: 0.4rem;
-            text-shadow: 0 3px 12px rgba(0,0,0,0.75);
-        }
-
-        .main-subtitle {
-            color: #e2e8f0 !important;
-            font-size: 1.35rem;
-            margin-bottom: 0rem;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.65);
-        }
-
         .hero-panel {
             background: rgba(15, 23, 42, 0.88);
             border: 1px solid rgba(255,255,255,0.16);
@@ -63,6 +48,49 @@ def apply_global_styles():
             margin-bottom: 26px;
             box-shadow: 0 18px 44px rgba(0,0,0,0.38);
             backdrop-filter: blur(9px);
+        }
+
+        .rush-brand {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .rush-logo {
+            width: 78px;
+            height: 78px;
+            border-radius: 22px;
+            background: linear-gradient(135deg, #16a34a, #2563eb);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.6rem;
+            font-weight: 900;
+            color: #ffffff !important;
+            box-shadow: 0 12px 28px rgba(0,0,0,0.35);
+            border: 2px solid rgba(255,255,255,0.3);
+        }
+
+        .rush-title-block {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .rush-wordmark {
+            font-size: 4.2rem;
+            font-weight: 950;
+            letter-spacing: -1px;
+            color: #ffffff !important;
+            line-height: 1;
+            text-shadow: 0 4px 16px rgba(0,0,0,0.75);
+        }
+
+        .rush-tagline {
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: #e2e8f0 !important;
+            margin-top: 8px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.65);
         }
 
         .dashboard-card {

@@ -7,10 +7,10 @@ from frontend.system_logs import render_system_logs
 from backend.logs import initialise_logs, add_log
 from backend.data_loader import load_dataset
 from backend.model import train_model
-from backend.auth import verify_login, get_accessible_pages
+from backend.auth import verify_login, register_user, get_accessible_pages
 
 st.set_page_config(
-    page_title="AI Athlete Monitoring Dashboard",
+    page_title="Rush",
     page_icon="⚽",
     layout="wide"
 )
@@ -29,13 +29,16 @@ if "username" not in st.session_state:
 if "user_role" not in st.session_state:
     st.session_state.user_role = None
 
+
 @st.cache_data
 def get_dataset():
     return load_dataset()
 
+
 @st.cache_resource
 def get_trained_model(df):
     return train_model(df)
+
 
 def logout():
     add_log(
@@ -48,34 +51,106 @@ def logout():
     st.session_state.username = None
     st.session_state.user_role = None
 
-if not st.session_state.authenticated:
-    st.markdown('<div class="main-title">AI Athlete Monitoring Dashboard</div>', unsafe_allow_html=True)
-    st.markdown('<div class="main-subtitle">Secure privacy-aware performance analytics platform</div>', unsafe_allow_html=True)
 
-    left, centre, right = st.columns([1, 1.2, 1])
+if not st.session_state.authenticated:
+    st.markdown(
+        """
+        <div class="hero-panel">
+            <div class="rush-brand">
+                <div class="rush-logo">R</div>
+                <div class="rush-title-block">
+                    <div class="rush-wordmark">Rush</div>
+                    <div class="rush-tagline">Secure privacy-aware performance analytics platform</div>
+                </div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+    left, centre, right = st.columns([1, 1.4, 1])
 
     with centre:
         st.markdown('<div class="dashboard-card">', unsafe_allow_html=True)
-        st.subheader("Secure Login")
-        username = st.text_input("Username")
-        password = st.text_input("Password", type="password")
 
-        if st.button("Login", use_container_width=True):
-            valid, role = verify_login(username, password)
+        login_tab, register_tab = st.tabs(["Login", "Register"])
 
-            if valid:
-                st.session_state.authenticated = True
-                st.session_state.username = username
-                st.session_state.user_role = role
-                add_log(
-                    st.session_state.system_logs,
-                    "User logged in",
-                    "Success",
-                    f"{username} logged in as {role}"
-                )
-                st.rerun()
-            else:
-                st.error("Invalid username or password.")
+        with login_tab:
+            st.markdown("## Login to Rush")
+
+            username = st.text_input(
+                "Username",
+                placeholder="Enter username",
+                key="login_username"
+            )
+
+            password = st.text_input(
+                "Password",
+                type="password",
+                placeholder="Enter password",
+                key="login_password"
+            )
+
+            if st.button("Login", use_container_width=True, key="login_button"):
+                valid, role = verify_login(username, password)
+
+                if valid:
+                    st.session_state.authenticated = True
+                    st.session_state.username = username
+                    st.session_state.user_role = role
+
+                    add_log(
+                        st.session_state.system_logs,
+                        "User logged in",
+                        "Success",
+                        f"{username} logged in as {role}"
+                    )
+
+                    st.rerun()
+                else:
+                    st.error("Invalid username or password.")
+
+        with register_tab:
+            st.markdown("## Create Viewer Account")
+            st.caption("New accounts are automatically assigned Viewer access.")
+
+            new_username = st.text_input(
+                "New Username",
+                placeholder="Create a username",
+                key="register_username"
+            )
+
+            new_password = st.text_input(
+                "New Password",
+                type="password",
+                placeholder="Create a password",
+                key="register_password"
+            )
+
+            confirm_password = st.text_input(
+                "Confirm Password",
+                type="password",
+                placeholder="Confirm password",
+                key="confirm_password"
+            )
+
+            if st.button("Register", use_container_width=True, key="register_button"):
+                if new_password != confirm_password:
+                    st.error("Passwords do not match.")
+                else:
+                    success, message = register_user(new_username, new_password)
+
+                    if success:
+                        add_log(
+                            st.session_state.system_logs,
+                            "New user registered",
+                            "Success",
+                            f"{new_username} registered as Viewer"
+                        )
+                        st.success(message)
+                    else:
+                        st.error(message)
+
         st.markdown('</div>', unsafe_allow_html=True)
 
 else:
@@ -83,10 +158,22 @@ else:
     model, accuracy = get_trained_model(df)
     accessible_pages = get_accessible_pages(st.session_state.user_role)
 
-    st.markdown('<div class="main-title">AI Athlete Monitoring Dashboard</div>', unsafe_allow_html=True)
-    st.markdown('<div class="main-subtitle">Balancing performance analytics with privacy-aware design</div>', unsafe_allow_html=True)
+    st.markdown(
+        """
+        <div class="hero-panel">
+            <div class="rush-brand">
+                <div class="rush-logo">R</div>
+                <div class="rush-title-block">
+                    <div class="rush-wordmark">Rush</div>
+                    <div class="rush-tagline">Balancing performance analytics with privacy-aware design</div>
+                </div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
-    st.sidebar.markdown("## Dashboard")
+    st.sidebar.markdown("## Rush")
     st.sidebar.markdown(f"**User:** {st.session_state.username}")
     st.sidebar.markdown(f"**Role:** {st.session_state.user_role}")
 
@@ -95,6 +182,7 @@ else:
         st.rerun()
 
     st.sidebar.markdown("---")
+
     selected_page = st.sidebar.radio(
         "Navigation",
         accessible_pages
